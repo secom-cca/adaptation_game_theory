@@ -5,44 +5,6 @@ import csv
 import json
 
 # ================================================================
-# シミュレーションの基本パラメータ
-# ================================================================
-START_YEAR = 2025
-END_YEAR   = 2100
-YEARS = np.arange(START_YEAR, END_YEAR + 1)
-
-# 初期状態
-INITIAL_FOREST_CAPACITY    = 50.0      # 森林保持能力（任意単位）
-INITIAL_DAM_CAPACITY       = 0.0       # ダム貯水能力
-INITIAL_EMBANKMENT_CAPACITY = 20.0      # 河川堤防許容流量
-INITIAL_HOUSES             = 1000      # 洪水被害対象の住宅数
-INITIAL_ECOSYSTEM          = 100.0     # 生態系指標（高いほど健全）
-
-# 各対策の投資効果
-FOREST_CAPACITY_INCREMENT     = 10.0   # 森林整備による増加量（固定）
-DAM_CAPACITY_INCREMENT        = 10.0   # ダム投資による増加量（基準値）
-EMBANKMENT_CAPACITY_INCREMENT = 10.0   # 河川堤防投資による増加量（基準値）
-
-# 効果発現までの遅延期間（年）
-DELAY_FOREST     = 40
-DELAY_DAM        = 10
-DELAY_EMBANKMENT = 5
-
-# 投資コスト（円単位）
-COST_FOREST_PER_UNIT      = 2000       # 森林整備：1単位あたり2000円
-COST_DAM_PER_UNIT         = 5000       # ダム投資：1単位あたり5000円
-COST_EMBANKMENT_PER_UNIT  = 10000      # 河川堤防投資：1単位あたり10000円
-COST_RELOCATION_PER_HOUSE = 10000      # 住宅移転：1戸あたり300万円（※ここでは単純化のため10000円）
-
-# 洪水被害モデルのパラメータ
-DAMAGE_COEFFICIENT = 10000  # しきい値超過雨量1単位あたり、1戸に与える被害（円）
-
-# 生態系への影響パラメータ
-FOREST_ECO_FACTOR     = 0.2    # 森林整備による改善効果
-DAM_ECO_FACTOR        = 0.1    # ダム投資による悪影響
-EMBANKMENT_ECO_FACTOR = 0.05   # 河川堤防投資による悪影響
-
-# ================================================================
 # (1) sim_data の作成：CSV ファイル "sim_data.csv" を読み込む
 # ================================================================
 # CSV ファイルは、各行が以下の形式になっているとする：
@@ -111,8 +73,8 @@ print(f"Loaded simulation data from {csv_filename}")
 # (2) Risk attitude parameters (choose one of 5, 50, 95)
 #     These determine which percentile of the simulation distribution is used.
 # ================================================================
-risk_percentile_U = 5  # Upstream (U): e.g. 5 (risk-averse), 50 (risk-neutral), 95 (risk-seeking)
-risk_percentile_D = 5  # Downstream (D)
+risk_percentile_U = 50  # Upstream (U): e.g. 5 (risk-averse), 50 (risk-neutral), 95 (risk-seeking)
+risk_percentile_D = 50  # Downstream (D)
 
 # ================================================================
 # (3) Extract raw component values (per strategy pair) from simulation data

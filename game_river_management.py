@@ -74,7 +74,7 @@ print(f"Loaded simulation data from {csv_filename}")
 #     These determine which percentile of the simulation distribution is used.
 # ================================================================
 risk_percentile_U = 50  # Upstream (U): e.g. 5 (risk-averse), 50 (risk-neutral), 95 (risk-seeking)
-risk_percentile_D = 50  # Downstream (D)
+risk_percentile_D = 99  # Downstream (D)
 
 # ================================================================
 # (3) Extract raw component values (per strategy pair) from simulation data
@@ -111,7 +111,7 @@ for u in strategies_U:
 def normalize_cost(v, v_min, v_max):
     if v_max == v_min:
         return 0.5
-    return 1 - (v - v_min) / (v_max - v_min)
+    return (v - v_min) / (v_max - v_min)
 
 def normalize_env(v, v_min, v_max):
     if v_max == v_min:
@@ -134,14 +134,14 @@ env_D_min,  env_D_max  = get_min_max("env", raw_payoffs_D)
 # (5) Set weight parameters for each component (modifiable)
 # ================================================================
 # Upstream weights for econ_U, safe_U, env_U
-wU_econ = 0.01
-wU_safe = 0.1
-wU_env  = 1.0
+wU_econ = 1.0
+wU_safe = 0.5
+wU_env  = 1.0 
 
 # Downstream weights for econ_D, safe_D, env_D
-wD_econ = 0.01
+wD_econ = 1.0
 wD_safe = 1.0
-wD_env  = 0.1
+wD_env  = 0.5
 
 # ================================================================
 # (6) Calculate final composite payoffs from normalized components.
@@ -161,7 +161,7 @@ for u in strategies_U:
             norm_safe_U = normalize_cost(raw_payoffs_U[key]["safe"], safe_U_min, safe_U_max)
             norm_env_U  = normalize_env(raw_payoffs_U[key]["env"], env_U_min, env_U_max)
             final_payoffs_U[key] = (wU_econ * norm_econ_U + wU_safe * norm_safe_U + wU_env * norm_env_U) / (wU_econ + wU_safe + wU_env)
-            
+
             norm_econ_D = normalize_cost(raw_payoffs_D[key]["econ"], econ_D_min, econ_D_max)
             norm_safe_D = normalize_cost(raw_payoffs_D[key]["safe"], safe_D_min, safe_D_max)
             norm_env_D  = normalize_env(raw_payoffs_D[key]["env"], env_D_min, env_D_max)
@@ -182,9 +182,9 @@ def find_nash_equilibria():
     for sU in strategies_U:
         for sD in strategies_D:
             u_val = payoff_U(sU, sD)
-            u_best = all(payoff_U(altU, sD) <= u_val + 1e-6 for altU in strategies_U)
+            u_best = all(payoff_U(altU, sD) <= u_val + 1e-10 for altU in strategies_U)
             d_val = payoff_D(sU, sD)
-            d_best = all(payoff_D(sU, altD) <= d_val + 1e-6 for altD in strategies_D)
+            d_best = all(payoff_D(sU, altD) <= d_val + 1e-10 for altD in strategies_D)
             if u_best and d_best:
                 nash_list.append((sU, sD))
     return nash_list

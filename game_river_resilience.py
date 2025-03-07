@@ -264,19 +264,3 @@ if __name__ == "__main__":
     for sc in sorted(scores, key=scores.get):
         print(f"  Scenario {sc}: Score = {scores[sc]} (U payoff = {payoff_U(sc[0], sc[1]):.3f}, D payoff = {payoff_D(sc[0], sc[1]):.3f})")
     print(f"  Borda winner: {winner} (U payoff = {payoff_U(winner[0], winner[1]):.3f}, D payoff = {payoff_D(winner[0], winner[1]):.3f}, total = {social_payoff(winner[0], winner[1]):.3f})")
-    
-    # ================================================================
-    # (9) Optional: Scatter plot for each strategy combination
-    # ================================================================
-    plt.figure(figsize=(12, 8))
-    # ここでは sim_data をもとに各組合せの散布図をプロット
-    colors = plt.cm.tab20(np.linspace(0, 1, len(sim_data)))
-    for i, ((u, d), data) in enumerate(sim_data.items()):
-        plt.scatter(data["flood_damage"], data["ecosystem"], alpha=0.1, color=colors[i],
-                    label=f"{u}/{d}" if i < len(sim_data) else "")
-    plt.xlabel("Flood Damage (Yen)")
-    plt.ylabel("Ecosystem Index")
-    plt.title("Scatter: Simulation outcomes for each strategy combination")
-    plt.grid(True)
-    plt.tight_layout()
-    plt.show()

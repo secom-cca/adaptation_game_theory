@@ -16,11 +16,11 @@ This repository contains several Python scripts for evaluating river resilience 
 
 - **`sim_river_resilience.py`**  
   This script simulates river resilience policies for a typical Japanese municipality over the period 2025–2100. In our model:
-  - A forest investment increases forest retention by 10 units, with a fixed 40-year delay and a cost of ¥200,000 per unit.
-  - A dam investment increases dam capacity by 10 units approximately 10 years after investment (with a ±1 year variation) and is scaled by a random multiplier between 0.8 and 1.2, at a cost of ¥50,000,000 per unit.
-  - An embankment investment increases embankment capacity by 10 units after about 5 years (±1 year variation) with similar scaling, at a cost of ¥100,000,000 per unit.
-  - Residential relocation has an immediate effect, removing relocated houses (e.g., 100 houses) from flood risk at a cost of ¥30,000,000 per house.
-  - Each year, the model generates rainfall based on realistic values (starting at a mean of 300 units in 2025 with a standard deviation of 50, plus a 10% chance of an extreme event) and compares it against the total protection capacity (the sum of forest, dam, and embankment capacities). If rainfall exceeds this capacity, flood damage is incurred based on the excess, the number of at-risk houses, and a damage coefficient of ¥10,000 per unit.
+  - A forest investment increases forest retention with a fixed delay.
+  - A dam investment increases dam capacity with some delay and is scaled by a random multiplier at a certain cost.
+  - An embankment investment increases embankment capacity with a delay with similar scaling, at a certain cost.
+  - Residential relocation has an immediate effect, removing relocated houses (e.g., 100 houses) from flood risk at a certain cost.
+  - Each year, the model generates rainfall based on realistic values and compares it against the total protection capacity (the sum of forest, dam, and embankment capacities). If rainfall exceeds this capacity, flood damage is incurred based on the excess, the number of at-risk houses, and a damage coefficient.
   - The ecosystem indicator is updated annually based on the positive effects of forest investments, negative impacts of dam and embankment investments, and environmental variability.
   
   The simulation runs multiple (e.g., 1,000) Monte Carlo trials for each of the 16 possible policy combinations. Detailed trial results are written to a CSV file (`sim_data.csv`) where each row contains the following columns:  

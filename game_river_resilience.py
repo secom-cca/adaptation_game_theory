@@ -74,7 +74,7 @@ print(f"Loaded simulation data from {csv_filename}")
 #     These determine which percentile of the simulation distribution is used.
 # ================================================================
 risk_percentile_U = 50  # Upstream (U): e.g. 5 (risk-averse), 50 (risk-neutral), 95 (risk-seeking)
-risk_percentile_D = 99  # Downstream (D)
+risk_percentile_D = 50  # Downstream (D)
 
 # ================================================================
 # (3) Extract raw component values (per strategy pair) from simulation data
